@@ -17,7 +17,9 @@ static NSString *kEditEndBlockKey = @"kEditEndBlockKey";
 - (void)limitTextLength:(int)length block:(EditEndBlock)block {
     objc_setAssociatedObject(self, (__bridge const void *)(kLimitTextLengthKey), [NSNumber numberWithInt:length], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
-    objc_setAssociatedObject(self, (__bridge const void *)(kEditEndBlockKey), block, OBJC_ASSOCIATION_COPY_NONATOMIC);
+    if (block) {
+        objc_setAssociatedObject(self, (__bridge const void *)(kEditEndBlockKey), block, OBJC_ASSOCIATION_COPY_NONATOMIC);
+    }
     
     [self addTarget:self action:@selector(textFieldTextLengthLimit:) forControlEvents:UIControlEventEditingChanged];
     [self addTarget:self action:@selector(textFieldDidEndEdit:) forControlEvents:UIControlEventEditingDidEnd];
